@@ -13,6 +13,7 @@ const favourites = require('./routes/favourites')
 const PORT = 5000
 const cors = require('cors');
 const viewBlog = require('./routes/viewBlog')
+const likes = require('./routes/likes')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 const corsOptions = {
@@ -32,8 +33,9 @@ app.use("/viewpolls", viewPolls);
 app.use("/recovery", recovery);
 app.use("/favourites", favourites);
 app.use('/viewblog', viewBlog);
+app.use("/likes", likes);
 app.get("/", (req, res) => {
-    db.query(`SELECT * FROM blogposts ORDER BY id DESC LIMIT 7`, (error, results) => {
+    db.query(`SELECT * FROM blogposts ORDER BY id DESC LIMIT 11`, (error, results) => {
         if (error) {
             console.log(error)
         }

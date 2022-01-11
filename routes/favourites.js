@@ -3,6 +3,7 @@ const favourites = express.Router();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const db = require('../db');
+const e = require('express');
 
 
 favourites.use(bodyParser.json());
@@ -14,10 +15,9 @@ favourites.get("/check", (req, res) => {
     db.query(`SELECT blogid from favourites WHERE id='${req.query.id}'`, (err, result) => {
         if (err) throw err;
         else {
-            console.log(result.length);
             if (result.length > 0) {
                 for (let i = 0; i < result.length; i++) {
-                    console.log(result[i].blogid, req.query.blogid)
+
                     if (result[i].blogid == req.query.blogid) {
                         res.send("Yes");
                         break;
@@ -25,7 +25,7 @@ favourites.get("/check", (req, res) => {
                 }
             }
             else {
-                console.log('no')
+
             }
 
 
@@ -55,4 +55,13 @@ favourites.get("/", (req, res) => {
     })
 })
 
+
+favourites.delete("/", (req, res) => {
+    db.query(`DELETE FROM favourites WHERE favourites.id='${req.query.id}' AND favourites.blogid='${req.query.blogid}'`, (err, result) => {
+        if (err) throw err;
+        else {
+            res.send("Deleted");
+        }
+    })
+})
 module.exports = favourites;
